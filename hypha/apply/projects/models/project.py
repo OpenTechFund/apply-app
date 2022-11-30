@@ -21,7 +21,7 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.core.models import Orderable
 from wagtail.fields import StreamField
 
@@ -427,7 +427,7 @@ class ProjectSOW(BaseStreamForm, AccessFormData, models.Model):
 
 class ProjectBaseStreamForm(BaseStreamForm, models.Model):
     name = models.CharField(max_length=255)
-    form_fields = StreamField(FormFieldsBlock())
+    form_fields = StreamField(FormFieldsBlock(), use_json_field=True)
 
     panels = [
         FieldPanel('name'),
@@ -471,7 +471,7 @@ class PAFReviewersRole(Orderable, ClusterableModel):
 
 
 @register_setting
-class ProjectSettings(BaseSetting, ClusterableModel):
+class ProjectSettings(BaseSiteSetting, ClusterableModel):
     contracting_gp_email = models.TextField("Contracting Group Email", null=True, blank=True)
     finance_gp_email = models.TextField("Finance Group Email", null=True, blank=True)
     staff_gp_email = models.TextField("Staff Group Email", null=True, blank=True)
