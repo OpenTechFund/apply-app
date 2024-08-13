@@ -1,10 +1,53 @@
-<!-- Matomo Tag Manager -->
+<!-- Matomo -->
 <script>
-  var _mtm = window._mtm = window._mtm || [];
-  _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-  (function() {
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.async=true; g.src='https://cdn.matomo.cloud/opentechfund.matomo.cloud/container_9dG94t2E.js'; s.parentNode.insertBefore(g,s);
-  })();
+
+  // Get user's analytic tracking preference
+  function getUserTrackingConsent () {
+    return localStorage.getItem("cookieconsent") === "accept"
+  }
+
+  // Initialize Matomo
+  function initMatomo() {
+    // Boilerplate Matomo tracking code
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="https://opentechfund.matomo.cloud/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src='https://cdn.matomo.cloud/opentechfund.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  }
+
+  // Set the consent prefs for Matomo based on the `consent` var
+  function setMatomoConsent() {
+    if (consent) {
+      _paq.push(['setConsentGiven']);
+    } else {
+      _paq.push(['forgetConsentGiven']);
+    }
+  }
+
+  // Check if the user's consent setting has updated
+  function checkConsentUpdates() {
+    var new_consent = getUserTrackingConsent();
+
+    if (new_consent != consent) {
+      consent = new_consent;
+      setMatomoConsent();
+    }
+  }
+
+  var consent = getUserTrackingConsent();
+
+  var _paq = window._paq = window._paq || [];
+  _paq.push(['requireConsent']);
+  initMatomo();
+  setMatomoConsent();
+
+  // Check for consent updates every 5 seconds
+  setInterval(checkConsentUpdates, 5000);
 </script>
-<!-- End Matomo Tag Manager -->
+<!-- End Matomo -->
