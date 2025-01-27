@@ -76,16 +76,12 @@ class Command(BaseCommand):
 
         next_month_start, next_month_end = get_next_month_start_end()
 
-        print("DAYS")
-        print(days_before_month_start)
-        print((next_month_start - datetime.date.today()).days > days_before_month_start)
-
         if (next_month_start - datetime.date.today()).days > days_before_month_start:
             self.stdout.write("Current date difference is not less than or equal to days_before_months_start, thus a new IFF round will not be created.")
             return
 
-        current_title = f"IFF-{datetime.date.today().year}-{datetime.date.today().month}"
-        next_title = f"IFF-{next_month_start.year}-{next_month_start.month}"
+        current_title = f"IFF-{datetime.date.today().year}-{datetime.date.today().month:02d}"
+        next_title = f"IFF-{next_month_start.year}-{next_month_start.month:02d}"
 
 
         leads = []
@@ -121,11 +117,11 @@ class Command(BaseCommand):
                 next_round._copy_forms("review_forms")
                 next_round._copy_forms("external_review_forms")
                 next_round._copy_forms("determination_forms")
+                next_round.workflow_name = fund.workflow_name
+                next_round.save()
 
                 self.stdout.write(f"A new IFF round has been created with the title: \"{next_title}\"")
             except ValidationError: # If the round already exists, don't do anything else
-                self.stdout.write(
-                    f"An IFF round already exists for this time and a new one will not be created!"
-                )
+                self.stdout.write("An IFF round already exists for this time, a new one will not be created!")
         else:
             self.stdout.write(f"No valid leads were found thus IFF round \"{next_title}\" will not be created")
