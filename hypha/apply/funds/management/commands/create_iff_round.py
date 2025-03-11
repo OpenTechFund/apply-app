@@ -76,17 +76,12 @@ class Command(BaseCommand):
 
         next_month_start, next_month_end = get_next_month_start_end()
 
-        print("DAYS")
-        print(days_before_month_start)
-        print((next_month_start - datetime.date.today()).days > days_before_month_start)
-
         if (next_month_start - datetime.date.today()).days > days_before_month_start:
             self.stdout.write("Current date difference is not less than or equal to days_before_months_start, thus a new IFF round will not be created.")
             return
 
-        current_title = f"IFF-{datetime.date.today().year}-{datetime.date.today().month}"
-        next_title = f"IFF-{next_month_start.year}-{next_month_start.month}"
-
+        current_title = f"IFF-{datetime.date.today().year}-{datetime.date.today().strftime('%m')}"
+        next_title = f"IFF-{next_month_start.year}-{next_month_start.strftime('%m')}"
 
         leads = []
 
@@ -111,7 +106,8 @@ class Command(BaseCommand):
                 title=next_title,
                 lead=lead,
                 start_date=next_month_start,
-                end_date=next_month_end
+                end_date=next_month_end,
+                workflow_name=fund.workflow_name,
             )
 
             try:
