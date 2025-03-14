@@ -20,3 +20,6 @@ The {{ org_short_name }} Team{% endblocktrans %}
 -- 
 {{ org_long_name }}
 {% if site %}{{ site.root_url }}{% else %}{{ base_url }}{% endif %}
+
+
+NOTE: Do not reply to this email - this mailbox is unmonitored. Please email hello@opentech.fund or use the "Communications" tab on your application instead.
