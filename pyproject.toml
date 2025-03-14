@@ -101,8 +101,11 @@ dependencies = [
 # Requirements for machine translations
 "translate" = ["torch~=2.3", "argostranslate~=1.9.6"]
 
+"translate-cpu" = ["torch==2.3.1+cpu", "argostranslate~=1.9.6"]
+
 [tool.uv]
 default-groups = ["dev", "docs"]
+find-links = ["https://download.pytorch.org/whl/cpu/torch_stable.html"]
 
 [tool.mypy]
 plugins = ["mypy_django_plugin.main"]

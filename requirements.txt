@@ -1,2 +1,3 @@
 # Required for the heroku buildpack
 -r requirements/prod.txt
+-r requirements/translate-cpu.txt
